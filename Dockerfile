@@ -4,18 +4,20 @@ LABEL Description="WSO2 - ESB"
 
 ###
 
-ENV wso2_esb_url 'http://product-dist.wso2.com/products/enterprise-service-bus/'${wso2_esb_version}'/wso2esb-'${wso2_esb_version}'.zip'
+ENV wso2_component 'esb'
+ENV wso2_component_version '5.4.0'
+ENV wso2_component_url 'http://product-dist.wso2.com/products/enterprise-service-bus/'${wso2_component_version}'/wso2'${wso2_component}'-'${wso2_component_version}'.zip'
 
 ###
 
 WORKDIR $wso2_component_directory
 
-RUN curl ${wso2_esb_url} \
+RUN curl ${wso2_component_url} \
     -H 'Referer: http://wso2.com/products/previous-products' \
-    --compressed > $(basename ${wso2_esb_url}) \
- && unzip $(basename ${wso2_esb_url}) && mv wso2esb-${wso2_esb_version} esb \
- && rm wso2esb-${wso2_esb_version}.zip \
- && mkdir -p /var/log/wso2/esb/
+    --compressed > $(basename ${wso2_component_url}) \
+  && unzip $(basename ${wso2_component_url}) && mv wso2${wso2_component}-${wso2_component_version} {wso2_component} \
+  && rm wso2{wso2_component}-${wso2_component_version}.zip \
+  && mkdir -p /var/log/wso2/{wso2_component}/
 
 COPY files/supervisor/* /etc/supervisor.d/
 
